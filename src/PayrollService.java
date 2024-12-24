@@ -23,7 +23,7 @@ public class PayrollService {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connection Established.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new CustomSQLException("Error establishing database connection.", e);
         }
         return connection;
     }
@@ -44,8 +44,8 @@ public class PayrollService {
                 employee.setStartDate(resultSet.getDate("start_date"));
                 employees.add(employee);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }  catch (SQLException e) {
+            throw new CustomSQLException("Error retrieving employee payroll data.", e);
         }
         return employees;
     }
@@ -60,7 +60,7 @@ public class PayrollService {
             int rowsUpdated = preparedStatement.executeUpdate();
             System.out.println("Rows updated: " + rowsUpdated);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new CustomSQLException("Error retrieving employee payroll data.", e);
         }
     }
 
@@ -83,7 +83,7 @@ public class PayrollService {
                 employees.add(employee);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new CustomSQLException("Error retrieving employee payroll data.", e);
         }
         return employees;
     }
@@ -106,7 +106,7 @@ public class PayrollService {
                                    ", Employee Count: " + resultSet.getInt("employee_count"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new CustomSQLException("Error retrieving employee payroll data.", e);
         }
     }
 }
